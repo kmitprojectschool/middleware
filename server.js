@@ -20,6 +20,7 @@ app.get('/', (req,res) => {
 
 app.post('/user/login', (req, res) => {
   console.log(req);
+  
     if(!req.body.username || !req.body.password){
       res.json({ success:false, error:"Send the parameters" });
       return;
@@ -41,6 +42,18 @@ app.post('/user/login', (req, res) => {
       res.json({ success:false, error:err });
     })
   });
+
+
+  app.get('/user/tech', (req, res) => {
+    console.log(req);   
+    res.statusCode = 200;   
+    db.Tech.find({}).then((tech)=>{
+        res.json({ success:true,techdetails:tech });
+          }
+      ).catch((err)=>{
+        res.json({ success:false, error:err });
+      })
+    });
 
 //REST API - Representational State Transfer
 //CRUD Operations

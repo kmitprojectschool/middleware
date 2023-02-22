@@ -22,3 +22,12 @@ const userschema = new mongoose.Schema( {
 },{collection:"users"});
 
 exports.User=mongoose.model("User",userschema)
+
+
+// Tech model
+  const techschema = new mongoose.Schema( {
+    name: { type: String, unique:true, required:true, lowercase:true,trim:true },
+    details: { type: String,required:true }
+},{collection:"techs"});
+
+exports.Tech=mongoose.model("Tech",techschema)
