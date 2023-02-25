@@ -1,62 +1,43 @@
-const express = require('express');
-const app = express();
-const cors = require('cors');
-const db = require('./database')
+const express = require("express");
+const cors = require('cors')
 
-const port = process.env.port || 5000 ;
-app.listen(port);
-app.use(cors())
+//const jwt = require('jsonwebtoken');
+//const bodyparser = require('body-parser');
+const db = require('./database')
+const jwt_code = "kmit123";
+
+const app = express();
+//app.use(cors);
+
+
+app.options("*", cors({ origin: 'https://reactdemo-phi.vercel.app/', optionsSuccessStatus: 200 }));
+
+app.use(cors({ origin: "https://reactdemo-phi.vercel.app/", optionsSuccessStatus: 200 }));
+
+const auth = require("./auth");
+const port = process.env.PORT||4000
 
 app.use(express.json());
+//app.use(bodyparser);
 
-console.log('App is listening at port '+port);
-
-//set response header
-app.get('/', (req,res) => {
-    res.statusCode = 200;
-    console.log("get!!");
- res.send("hello!");
+app.get("/", async (req, res) => {
+  return res.json({ message: "Hello, World" });
 });
 
-app.post('/user/login', (req, res) => {
-  console.log(req);
-  
-    if(!req.body.username || !req.body.password){
-      res.json({ success:false, error:"Send the parameters" });
-      return;
-    }  
-    db.User.findOne({username:req.body.username}).then((user)=>{
-      if(!user){
-        res.json({ success:false, error:"User does not exist" });
-      }
-      else {
-        if(user.password != req.body.password){
-          res.json({ success:false, error:"password not correct" });
-        }
-        else{
-          res.json({ success:true, username:user.username,role:user.role });
-        }
-  
-      }
-    }).catch((err)=>{
-      res.json({ success:false, error:err });
-    })
+app.get("/data", async (req, res) => {
+    //logic
+    
+    return res.json({ message: "Hello, Data" });
   });
 
 
-  app.get('/user/tech', (req, res) => {
-    console.log(req);   
-    res.statusCode = 200;   
-    db.Tech.find({}).then((tech)=>{
-        res.json({ success:true,techdetails:tech });
-          }
-      ).catch((err)=>{
-        res.json({ success:false, error:err });
-      })
-    });
+const start = async () => {
+  try {
+    app.listen(port, () => console.log(`Server started on port ${port}`));
+  } catch (error) {
+    console.error(error);
+    process.exit(1);
+  }
+};
 
-//REST API - Representational State Transfer
-//CRUD Operations
-
-
-//const url = `mongodb+srv://student:kmit123@cluster0.mwifk43.mongodb.net/himalayas?retryWrites=true&w=majority`;
+start()
