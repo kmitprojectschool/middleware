@@ -3,7 +3,7 @@ const cors = require('cors')
 
 //const jwt = require('jsonwebtoken');
 //const bodyparser = require('body-parser');
-const db = require('./database')
+//const db = require('./database')
 const jwt_code = "kmit123";
 
 const app = express();
@@ -14,7 +14,7 @@ app.options("*", cors({ origin: 'https://reactdemo-phi.vercel.app/', optionsSucc
 
 app.use(cors({ origin: "https://reactdemo-phi.vercel.app/", optionsSuccessStatus: 200 }));
 
-const auth = require("./auth");
+//const auth = require("./auth");
 const port = process.env.PORT||4000
 
 app.use(express.json());
